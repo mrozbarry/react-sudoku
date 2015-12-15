@@ -1,6 +1,6 @@
 # React Sudoku
 
-*Note:** Not production ready
+**Note:** Not production ready
 
 ## Notes
 

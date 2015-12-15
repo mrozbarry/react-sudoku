@@ -1,0 +1,6 @@
+--ui bdd
+--recursive
+--reporter nyan
+--inline-diffs
+--compilers coffee:coffee-script/register
+--colors

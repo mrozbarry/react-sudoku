@@ -5,6 +5,7 @@ VALID_CANDIDATES = [1..9]
 # Privates
 
 validateNumber = (number, numberName) ->
+  return if number == null
   num = parseInt(number)
   unless num && _.contains(VALID_CANDIDATES, num)
     throw new Error("#{numberName} must be a number between 1 and 9 (#{number} given)")

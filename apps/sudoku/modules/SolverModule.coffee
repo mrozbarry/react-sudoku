@@ -88,6 +88,7 @@ SolverModule =
       number = _.first seedShuffle([1..9], solver)
       nextGrid = GridModule.setNumber(grid, index, number)
       possibilities = SolverModule.allPossibilities(grid)
+      console.log possibilities
       return SolverModule.resolve(solver, nextGrid, possibilities[0].index)
 
     else if emptyCells > 0

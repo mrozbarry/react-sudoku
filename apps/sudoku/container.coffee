@@ -1,6 +1,8 @@
+GridActions = require('./actions/GridActions')
+
 mapDispatchToProps = (dispatch) ->
-  someMethod: (stuff) ->
-    dispatch({ type: 'NO-OP', stuff: stuff })
+  setNumber: (index, number) ->
+    dispatch GridActions.setNumber(index, number)
 
 connector = ReactRedux.connect(((state) -> state), mapDispatchToProps)
 

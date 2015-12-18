@@ -1,13 +1,12 @@
 { devTools, persistState } = require('redux-devtools')
-thunk = require('redux-thunk')
 
 reducer = require('../reducers/index')
 
-GridModule = require('../modules/GridModule.coffee')
+GridModule = require('../modules/GridModule')
 
 initialState =
   grid: GridModule.empty()
-  cursor: new Object()
+  conflicts: new Array()
 
 logger = (store) => (next) => (action) =>
   console.groupCollapsed(action.type)
@@ -19,10 +18,9 @@ logger = (store) => (next) => (action) =>
   result
 
 compoundStore = Redux.compose(
-  Redux.applyMiddleware(logger, thunk),
+  Redux.applyMiddleware(logger),
   devTools(),
   persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
 )(Redux.createStore)
 
-# module.exports = Redux.createStore(captureReducer, initialState)
 module.exports = compoundStore(reducer, initialState)

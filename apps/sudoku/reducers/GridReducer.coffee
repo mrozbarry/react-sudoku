@@ -1,26 +1,12 @@
-highlightCells: (cells, action) ->
-  # TODO
-  _.map cells, (cell) ->
-    cell
+GridModule = require('../modules/GridModule')
 
-addCandidate: (cells, action) ->
-  # TODO
-  cells
+setNumber = (grid, action) ->
+  GridModule.setNumber(grid, action.index, action.number)
 
-setNumber: (cells, action) ->
-  # TODO
-  cells
-
-module.exports = (cells, action) ->
+module.exports = (grid, action) ->
   switch action.type
-    when 'HIGHLIGHT_CELLS'
-      highlightCells(cells, action)
-
-    when 'ADD_CANDIDATE'
-      addCandidate(cells, action)
-
     when 'SET_NUMBER'
-      setNumber(cells, action)
+      setNumber(grid, action)
 
     else
-      cells
+      grid

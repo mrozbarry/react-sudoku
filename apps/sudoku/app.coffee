@@ -6,8 +6,13 @@ App = Component.create
   displayName: 'Sudoku:App'
 
   render: ->
+    { grid, conflicts } = @props
+
     div {},
-      Grid {}
+      Grid
+        grid: grid
+        conflicts: conflicts
+        setNumber: @props.setNumber
 
 module.exports = App
 

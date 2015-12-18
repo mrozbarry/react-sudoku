@@ -30,6 +30,7 @@
     "webpack-dev-server": "^1.7.0"
   },
   "scripts": {
+    "dev-env": "npm install -g coffee-script",
     "test": "./node_modules/mocha/bin/mocha --opts spec/mocha.opts spec",
     "dev": "foreman start -f Procfile-dev",
     "build:production": "mkdir -p ./public && webpack -p --config ./config/webpack.production.config.js",

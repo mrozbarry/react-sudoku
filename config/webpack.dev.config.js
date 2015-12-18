@@ -6,6 +6,8 @@ base.output = {
   filename: "bundle.js"
 };
 
+base.entry.devServer = 'webpack/hot/dev-server'
+
 base.devServer = {
   port: process.env.PORT || 8080
 };

@@ -1,41 +1,43 @@
-{ input } = React.DOM
+{ strong, input } = React.DOM
 
 module.exports = Component.create
   displayName: 'Grid:Cell'
 
-  rejectInvalidKeys: (e) ->
-    if e.keyCode >= 32
-      key = String.fromCharCode(e.keyCode)
-      unless key.match /[123456789]/gi
-        console.debug 'rejecting input'
-        e.preventDefault()
-
-  setNumber: (e) ->
+  setNumberOrCandidate: (e) ->
     { index, cell } = @props
 
-    value = e.target.value
-    if value == ''
+    if e.key == "Backspace"
       @props.setNumber(index, null)
+      return
 
-    else
-      number = parseInt(value)
-      if _.includes [1..9], number
-        @props.setNumber(index, number)
+    return if e.metaKey || e.ctrlKey
+
+    e.preventDefault()
+
+    key = String.fromCharCode(e.keyCode)
+    if key.match /[123456789]/gi
+      if e.shiftKey && cell.number == null
+        console.debug '[STUB] add candidate', key
+        e.preventDefault()
 
       else
-        @props.setNumber(index, cell.number)
+        @props.setNumber(index, parseInt(key))
 
   render: ->
     { index, cell, hasProblem } = @props
 
-    input
-      value: cell.number
-      onKeyDown: @rejectInvalidKeys
-      onChange: @setNumber
-      onFocus: @focusCell,
+    if cell.isLocked
+      strong {}, cell.number
 
-      style:
-        width: '32px'
-        height: '32px'
-        textAlign: 'center'
+    else
+      input
+        value: cell.number
+        onKeyDown: @setNumberOrCandidate
+        onFocus: @focusCell,
+
+        style:
+          width: '32px'
+          height: '32px'
+          textAlign: 'center'
+          backgroundColor: 'transparent'
 

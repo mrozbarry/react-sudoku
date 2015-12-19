@@ -18,6 +18,8 @@ module.exports = Component.create
       borderTop: @getBorderStyleIf(row % 3 == 0)
       borderBottom: @getBorderStyleIf(row == 8)
       backgroundColor: 'white'
+      textAlign: 'center'
+      verticalAlign: 'middle'
 
     tr {},
       _.map [0...9], (column) =>

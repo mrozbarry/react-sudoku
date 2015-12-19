@@ -18,7 +18,8 @@
     "react-redux": "^4.0.0",
     "redux": "^3.0.4",
     "sass-loader": "^1.0.2",
-    "style-loader": "^0.8.3"
+    "style-loader": "^0.8.3",
+    "bemmer-node": "0.1.2"
   },
   "devDependencies": {
     "electron-prebuilt": "^0.36.0",

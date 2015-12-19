@@ -24,6 +24,8 @@ module.exports = {
       "Redux": "redux",
       "ReactRedux": "react-redux",
 
+      "Bemmer": "bemmer-node/bemmer-class.js",
+
       "Component": path.resolve(".", "lib", "local_modules", "component.coffee")
     })
   ]

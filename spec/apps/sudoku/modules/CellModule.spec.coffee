@@ -45,7 +45,7 @@ describe 'CellModule', ->
       notACell = new Object()
       expect(CellModule.addCandidate).withArgs(notACell, 1).to.throwException()
 
-    ['', null, undefined, true, 0, 10, false, new Object(), new Array()].forEach (invalidInput) ->
+    ['', undefined, true, 0, 10, false, new Object(), new Array()].forEach (invalidInput) ->
       it "throws an error when candidateNumber is a #{typeof(invalidInput)} (#{invalidInput})", ->
         cell = CellModule.empty()
         expect(CellModule.addCandidate).withArgs(cell, invalidInput).to.throwException()
@@ -54,6 +54,27 @@ describe 'CellModule', ->
       it "does not throw when candidateNumber is #{validInput}", ->
         cell = CellModule.empty()
         expect(CellModule.addCandidate).withArgs(cell, validInput).not.to.throwException()
+
+  context 'removeCandidate', ->
+    it 'returns a copy of the cell', ->
+      cell = CellModule.empty()
+      cell.candidates = [1]
+
+      nextCell = CellModule.removeCandidate(cell, 1)
+      expect(cell).not.to.equal(nextCell)
+      expect(nextCell).to.only.have.keys('candidates', 'isLocked', 'number')
+
+    it 'removes a 1 from the candidates array', ->
+      cell = CellModule.empty()
+      cell.candidates = [1]
+
+      nextCell = CellModule.removeCandidate(cell, 1)
+      expect(nextCell.candidates).to.have.length(0)
+
+    it 'does not change the candidates array if the number is not already in the candidates array', ->
+      cell = CellModule.empty()
+      nextCell = CellModule.removeCandidate(cell, 1)
+      expect(cell.candidates.length).to.equal(nextCell.candidates.length)
 
   context 'lock', ->
     it 'returns a copy of the cell', ->

@@ -10,10 +10,17 @@ validateNumber = (number, numberName) ->
   unless num && _.contains(VALID_CANDIDATES, num)
     throw new Error("#{numberName} must be a number between 1 and 9 (#{number} given)")
 
+ascNumSort = (arr) ->
+  arr.sort (a, b) -> a > b
+
 addCandidateNumber = (candidates, number) ->
   validateNumber(number, "Candidate")
 
-  _.uniq(candidates.concat(number)).sort()
+  ascNumSort _.uniq(candidates.concat(number))
+
+removeCandidateNumber = (candidates, number) ->
+  _.reject candidates, (candidate) ->
+    candidate == number
 
 # Public code
 
@@ -26,6 +33,13 @@ module.exports =
   addCandidate: (cell, candidateNumber) ->
     _.assign {}, cell,
       candidates: addCandidateNumber(
+        cell.candidates
+        candidateNumber
+      )
+
+  removeCandidate: (cell, candidateNumber) ->
+    _.assign {}, cell,
+      candidates: removeCandidateNumber(
         cell.candidates
         candidateNumber
       )

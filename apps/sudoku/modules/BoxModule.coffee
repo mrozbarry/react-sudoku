@@ -1,46 +1,41 @@
 _ = require('lodash')
 
-offsetsOfBox = [
-  0, 3, 6,
-  27, 30, 33,
-  54, 57, 60
+#  0  1  2    3  4  5    6  7  8
+#  9 10 11   12 13 14   15 16 17
+# 18 19 20   21 22 23   24 25 26
+#
+# 27 28 29   30 31 32   33 34 35
+# 36 37 38   39 40 41   42 43 44
+# 45 46 47   48 49 50   51 52 53
+#
+# 54 55 56   57 58 59   60 61 62
+# 63 64 65   66 67 68   69 70 71
+# 72 73 74   75 76 77   78 79 80
+
+boxIndexes = [
+  [ 0, 1, 2, 9,10,11,18,19,20]
+  [ 3, 4, 5,12,13,14,21,22,23]
+  [ 6, 7, 8,15,16,17,24,25,26]
+
+  [27,28,29,36,37,38,45,46,47]
+  [30,31,32,39,40,41,48,49,50]
+  [33,34,35,42,43,44,51,52,53]
+
+  [54,55,56,63,64,65,72,73,74]
+  [57,58,59,66,67,68,75,76,77]
+  [60,61,62,69,70,71,78,79,80]
 ]
 
-boxIndexes = (boxNumber) ->
-  topLeft = offsetsOfBox[boxNumber]
-  _.reduce [0...3], ((cellIndexes, row) ->
-    internalRow = _.map [0...3], (column) ->
-      topLeft + (row * 9) + column
-    cellIndexes.concat internalRow
-  ), new Array()
-
-boxCells = (boxNumber, grid) ->
-  indexes = boxIndexes(boxNumber)
-  _.map indexes, (index) ->
-    grid[index]
-
-boxFromIndex = (index) ->
-  for boxNumber in [0...9]
-    indexes = boxIndexes(boxNumber)
-    return boxNumber if _.contains indexes, index
-
-  return 0
-
 BoxModule =
-  fromIndex:
-    boxIndexes: (index) ->
-      boxNumber = boxFromIndex(index)
-      boxIndexes(boxNumber)
+  getBoxNumberFromIndex: (index) ->
+    _.findIndex boxIndexes, (boxIndexList) ->
+      _.includes boxIndexList, index
 
-    boxCells: (index, grid) ->
-      boxNumber = boxFromIndex(index)
-      boxCells(boxNumber, grid)
+  getIndexesFromIndex: (index) ->
+    _.find boxIndexes, (boxIndexList) ->
+      _.includes boxIndexList, index
 
-  fromBox: ->
-    boxIndexes: (box) ->
-      boxIndexes(box)
-
-    boxCells: (box, grid) ->
-      boxCells(box, grid)
+  getIndexesFromBoxNumber: (boxNumber) ->
+    boxIndexes[boxNumber]
 
 module.exports = BoxModule

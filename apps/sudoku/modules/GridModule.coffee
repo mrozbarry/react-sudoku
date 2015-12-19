@@ -5,9 +5,14 @@ RowModule = require('./RowModule')
 ColumnModule = require('./ColumnModule')
 BoxModule = require('./BoxModule')
 
-indexesOfCellsWithNumber = (grid, number, indexes, excludeIndexes = new Array()) ->
+relatedIndexes = (index) ->
+  _.reject _.uniq(BoxModule.getIndexesFromIndex(index)
+    .concat(RowModule.getIndexesFromIndex(index))
+    .concat(ColumnModule.getIndexesFromIndex(index))
+  ), (idx) -> idx == index
+
+indexesOfCellsWithNumber = (grid, number, indexes) ->
   _.select indexes, (idx) ->
-    return false if _.includes excludeIndexes, idx
     grid[idx].number == number
 
 GridModule =
@@ -20,25 +25,30 @@ GridModule =
       _.map [0...9], (index) ->
         grid[(indexStart * 9) + index].number
 
+  debugAll: (grid) ->
+    _.map [0...9], (indexStart) ->
+      _.map [0...9], (index) ->
+        idx = (indexStart * 9) + index
+        _.extend {index: idx}, grid[idx]
+
   setNumber: (grid, index, number) ->
+    revokableIndexes = relatedIndexes(index)
     _.map grid, (cell, idx) ->
       if idx == index
-        CellModule.setNumber(cell, number)
+        return CellModule.setNumber(cell, number)
 
-      else
-        cell
+      else if _.includes(revokableIndexes, idx) && cell.candidates.length > 0
+        return CellModule.removeCandidate(cell, number)
+
+      cell
 
   getConflicts: (grid) ->
     _.reduce grid, ((conflicts, cell, index) ->
       return conflicts if cell.number == null
 
-      testableIndexes = _.uniq BoxModule.fromIndex.boxIndexes(index).concat(
-        RowModule.fromIndex.rowIndexes(index)
-      ).concat(
-        ColumnModule.fromIndex.columnIndexes(index)
-      )
+      testableIndexes = relatedIndexes(index)
 
-      cellConflicts = indexesOfCellsWithNumber(grid, cell.number, testableIndexes, [index])
+      cellConflicts = indexesOfCellsWithNumber(grid, cell.number, testableIndexes)
 
       _.uniq conflicts.concat(cellConflicts)
     ), new Array()

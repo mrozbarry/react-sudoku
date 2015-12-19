@@ -1,31 +1,27 @@
-rowNumberFromIndex = (index) ->
-  return -1 if index < 0 || index >= 81
-  Math.floor(index / 9)
+_ = require('lodash')
 
-rowIndexes = (row) ->
-  firstCellIndex = row * 9
-  [firstCellIndex...(firstCellIndex + 9)]
-
-rowCells = (row, grid) ->
-  rowIndexes = rowIndexes(row)
-  _.map rowIndexes, (rowIndex) ->
-    grid[rowIndex]
+rowIndexes = [
+  [0...9]
+  [9...18]
+  [18...27]
+  [27...36]
+  [36...45]
+  [45...54]
+  [54...63]
+  [63...72]
+  [72...81]
+]
 
 RowModule =
-  fromIndex:
-    rowIndexes: (index) ->
-      rowNumber = rowNumberFromIndex(index)
-      rowIndexes(rowNumber)
+  getRowNumberFromIndex: (index) ->
+    _.findIndex rowIndexes, (rowIndexList) ->
+      _.includes rowIndexList, index
 
-    rowCells: (index, grid) ->
-      rowNumber = rowNumberFromIndex(index)
-      rowCells(rowNumber)
+  getIndexesFromIndex: (index) ->
+    _.find rowIndexes, (rowIndexList) ->
+      _.includes rowIndexList, index
 
-  fromRow: ->
-    rowIndexes: (row) ->
-      rowIndexes(row)
-
-    rowCells: (row, grid) ->
-      rowCells(row, grid)
+  getIndexesFromRowNumber: (rowNumber) ->
+    rowIndexes[rowNumber]
 
 module.exports = RowModule

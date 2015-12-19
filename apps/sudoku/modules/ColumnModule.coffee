@@ -1,33 +1,27 @@
 _ = require('lodash')
 
-columnNumberFromIndex = (index) ->
-  return -1 if index < 0 || index >= 81
-  index % 9
-
-columnIndexes = (column) ->
-  _.map [0...9], (rowNumber) ->
-    column + (rowNumber * 9)
-
-columnCells = (column, grid) ->
-  indexes = ColumnModule.fromColumn.columnIndexes(column)
-  _.map indexes, (columnIndex) ->
-    grid[columnIndex]
+columnIndexes = [
+  [0, 9,18,27,36,45,54,63,72]
+  [1,10,19,28,37,46,55,64,73]
+  [2,11,20,29,38,47,56,65,74]
+  [3,12,21,30,39,48,57,66,75]
+  [4,13,22,31,40,49,58,67,76]
+  [5,14,23,32,41,50,59,68,77]
+  [6,15,24,33,42,51,60,69,78]
+  [7,16,25,34,43,52,61,70,79]
+  [8,17,26,35,44,53,62,71,80]
+]
 
 ColumnModule =
-  fromIndex:
-    columnIndexes: (index) ->
-      columnNumber = columnNumberFromIndex(index)
-      columnIndexes(columnNumber)
+  getColumnNumberFromIndex: (index) ->
+    _.findIndex columnIndexes, (columnIndexList) ->
+      _.includes columnIndexList, index
 
-    columnCells: (index, grid) ->
-      columnNumber = columnNumberFromIndex(index)
-      columnCells(columnNumber, grid)
+  getIndexesFromIndex: (index) ->
+    _.find columnIndexes, (columnIndexList) ->
+      _.includes columnIndexList, index
 
-  fromColumn: ->
-    columnIndexes: (column) ->
-      columnIndexes(column)
-
-    columnCells: (column, grid) ->
-      columnCells(column, grid)
+  getIndexesFromColumnNumber: (columnNumber) ->
+    columnIndexes[columnNumber]
 
 module.exports = ColumnModule

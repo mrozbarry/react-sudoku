@@ -44,9 +44,10 @@ numberEmpty = (grid) ->
 SolverModule =
   init: (seed) ->
     mt = new MersenneTwister(seed)
-    (-> mt.int())
 
-  solve: (solver, grid, index = 0) ->
+    random: (-> mt.int())
+
+  solve: (solver, grid) ->
     return grid if index >= 81
 
     possibleNumbers = seedShuffle(
@@ -80,30 +81,5 @@ SolverModule =
       numbers: possibleNumbersForIndex(idx, grid)
 
     _.sortBy possibilities, (possibility) -> possibility.numbers.length
-
-  resolve: (solver, grid, index) ->
-    console.log GridModule.debug grid
-    emptyCells = numberEmpty(grid)
-    if emptyCells == 81
-      number = _.first seedShuffle([1..9], solver)
-      nextGrid = GridModule.setNumber(grid, index, number)
-      possibilities = SolverModule.allPossibilities(grid)
-      console.log possibilities
-      return SolverModule.resolve(solver, nextGrid, possibilities[0].index)
-
-    else if emptyCells > 0
-      numbers = possibleNumbersForIndex(index, grid)
-      console.log numbers
-      number = _.first seedShuffle(numbers, solver)
-      nextGrid = GridModule.setNumber(grid, index, number)
-      possibilities = SolverModule.allPossibilities(grid)
-      if possibilities.length > 0
-        return SolverModule.resolve(solver, nextGrid, possibilities[0].index)
-      else
-        return grid
-
-    else
-      return grid
-
 
 module.exports = SolverModule

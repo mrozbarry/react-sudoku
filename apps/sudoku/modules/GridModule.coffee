@@ -15,21 +15,30 @@ indexesOfCellsWithNumber = (grid, number, indexes) ->
   _.select indexes, (idx) ->
     grid[idx].number == number
 
+mapGridToRows = (callback) ->
+  _.map [0...9], (row) ->
+    _.map [0...9], (column) ->
+      index = (row * 9) + column
+
+      callback(index, row, column)
+
+
 GridModule =
   empty: ->
     _.map [0...81], (cell) ->
       CellModule.empty()
 
   debug: (grid) ->
-    _.map [0...9], (indexStart) ->
-      _.map [0...9], (index) ->
-        grid[(indexStart * 9) + index].number
+    mapGridToRows (index, row, column) ->
+      grid[index].number
 
   debugAll: (grid) ->
-    _.map [0...9], (indexStart) ->
-      _.map [0...9], (index) ->
-        idx = (indexStart * 9) + index
-        _.extend {index: idx}, grid[idx]
+    mapGridToRows (index, row, column) ->
+      _.extend {index: index}, grid[index]
+
+  debugCandidates: (grid) ->
+    mapGridToRows (index, row, column) ->
+      grid[index].candidates.join('.')
 
   setNumber: (grid, index, number) ->
     revokableIndexes = relatedIndexes(index)
@@ -41,6 +50,40 @@ GridModule =
         return CellModule.removeCandidate(cell, number)
 
       cell
+
+  addCandidate: (grid, index, candidate) ->
+    _.map grid, (cell, idx) ->
+      if idx == index
+        return CellModule.addCandidate(cell, candidate)
+
+      cell
+
+  removeCandidate: (grid, index, candidate) ->
+    _.map grid, (cell, idx) ->
+      if idx == index
+        return CellModule.removeCandidate(cell, candidate)
+
+      cell
+
+  resetAllCandidates: (grid) ->
+    _.map grid, (cell, index) ->
+      return cell if cell.isLocked
+
+      nextCell = cell
+
+      _.each cell.candidates, (candidate) ->
+        nextCell = nextCell.removeCandidate(grid, index, candidate)
+
+      nextCell
+
+  resetAllNumbers: (grid) ->
+    _.map grid, (cell) ->
+      return cell if cell.isLocked
+      CellModule.setNumber(cell, null)
+
+  reset: (grid) ->
+    _.map grid, (cell, index) ->
+      return cell if cell.isLocked
 
   getConflicts: (grid) ->
     _.reduce grid, ((conflicts, cell, index) ->

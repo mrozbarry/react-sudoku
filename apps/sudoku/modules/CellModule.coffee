@@ -13,12 +13,12 @@ validateNumber = (number, numberName) ->
 ascNumSort = (arr) ->
   arr.sort (a, b) -> a > b
 
-addCandidateNumber = (candidates, number) ->
+addCandidate = (candidates, number) ->
   validateNumber(number, "Candidate")
 
   ascNumSort _.uniq(candidates.concat(number))
 
-removeCandidateNumber = (candidates, number) ->
+removeCandidate = (candidates, number) ->
   _.reject candidates, (candidate) ->
     candidate == number
 
@@ -31,18 +31,28 @@ module.exports =
     number: null
 
   addCandidate: (cell, candidateNumber) ->
+    return cell if cell.isLocked
+
     _.assign {}, cell,
-      candidates: addCandidateNumber(
+      candidates: addCandidate(
         cell.candidates
         candidateNumber
       )
 
   removeCandidate: (cell, candidateNumber) ->
+    return cell if cell.isLocked
+
     _.assign {}, cell,
-      candidates: removeCandidateNumber(
+      candidates: removeCandidate(
         cell.candidates
         candidateNumber
       )
+
+  removeAllCandidates: (cell) ->
+    return cell if cell.isLocked
+
+    _.assign {}, cell,
+      candidates: new Array()
 
   lock: (cell) ->
     return cell unless cell.number?
@@ -50,7 +60,7 @@ module.exports =
       isLocked: true
 
   setNumber: (cell, number) ->
-    return cell if cell.isLocked == true
+    return cell if cell.isLocked
 
     validateNumber(number, "Cell number")
     _.assign {}, cell,

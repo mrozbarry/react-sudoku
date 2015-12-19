@@ -2,23 +2,28 @@
 
 Row = require('./Row')
 
+require('./styles/index.sass')
+
 module.exports = Component.create
   displayName: 'Grid'
 
   render: ->
     { grid, conflicts } = @props
 
-    div {},
-      h1 {}, 'React Sudoku'
+    bem = new Bemmer(block: 'grid')
+
+    div
+      className: bem.classes(),
+
+      h1
+        className: bem.with(element: 'header'),
+        'React Sudoku'
 
       table
-        cellSpacing: 0
-        cellPadding: 2
-        style: {
-          margin: 'auto auto'
-        },
+        className: bem.with(element: 'table'),
 
-        tbody {},
+        tbody
+          className: bem.with(element: 'table-tbody'),
           _.map [0...9], (row) =>
 
             Row

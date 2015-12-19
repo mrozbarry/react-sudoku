@@ -10,7 +10,7 @@ module.exports = Component.create
       @props.setNumber(index, null)
       return
 
-    return if e.metaKey || e.ctrlKey
+    return if e.metaKey || e.ctrlKey || (e.key == 'Tab')
 
     e.preventDefault()
 

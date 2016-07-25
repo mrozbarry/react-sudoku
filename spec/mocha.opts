@@ -2,5 +2,5 @@
 --recursive
 --reporter nyan
 --inline-diffs
---compilers coffee:coffee-script/register
+--compilers js:babel-register
 --colors

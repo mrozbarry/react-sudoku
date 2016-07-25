@@ -1,2 +1,0 @@
-web: NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --hot --inline
-desktop: electron desktop/index.js

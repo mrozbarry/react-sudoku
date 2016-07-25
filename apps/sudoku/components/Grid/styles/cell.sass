@@ -1,0 +1,27 @@
+$highlight-color: #DCFFDA
+
+.cell
+  &-locked
+    background-color: rgb(204,198,198)
+
+  &-unlocked
+    width: 32px
+    height: 32px
+    text-align: center
+    background-color: transparent
+    z-index: 10
+    border: none
+
+    &:focus
+      background-color: $highlight-color
+
+    &::webkit-input-placeholder
+      font-size: 5pt
+      white-space: normal
+      width: 32px
+
+.highlight
+  background-color: $highlight-color
+
+.cell-unlocked.highlight
+  background-color: $highlight-color

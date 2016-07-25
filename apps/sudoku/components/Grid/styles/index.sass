@@ -9,4 +9,18 @@
     margin: auto auto
 
     &-tbody
-
+      tr:first-child
+        td
+          border-top: 1px black solid
+      tr:last-child,
+      tr:nth-child(3n)
+        td
+          border-bottom: 1px black solid
+      tr
+        td
+          border-left: 1px #efefef solid
+          border-bottom: 1px #efefef solid
+        td:first-child
+          border-left: 1px black solid
+        td:nth-child(3n)
+          border-right: 1px black solid !important

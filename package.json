@@ -2,10 +2,17 @@
   "name": "react-sudoku",
   "version": "0.0.1",
   "description": "React Sudoku Player and Solver",
-  "main": "index.html",
+  "main": "public/index.html",
   "dependencies": {
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.8.0",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "bemmer-node": "0.1.2",
     "css-loader": "^0.9.1",
     "file-loader": "^0.8.4",
     "font-awesome-webpack": "^0.0.3",
@@ -13,29 +20,30 @@
     "json-loader": "^0.5.2",
     "lodash": "^3.1.0",
     "mersennetwister": "^0.2.2",
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
     "redux": "^3.0.4",
     "sass-loader": "^1.0.2",
-    "style-loader": "^0.8.3",
-    "bemmer-node": "0.1.2"
+    "style-loader": "^0.8.3"
   },
   "devDependencies": {
+    "babel-register": "^6.11.5",
     "electron-prebuilt": "^0.36.0",
     "expect.js": "^0.3.1",
     "mocha": "^2.3.0",
+    "node-sass": "^3.8.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-transform-hmr": "^1.0.4",
     "redux-devtools": "^2.1.5",
     "sinon": "^1.16.1",
-    "webpack": "^1.5.1",
-    "webpack-dev-server": "^1.7.0"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "dev-env": "npm install -g coffee-script",
-    "test": "./node_modules/mocha/bin/mocha --opts spec/mocha.opts spec",
-    "dev": "foreman start -f Procfile-dev",
-    "build:production": "mkdir -p ./public && webpack -p --config ./config/webpack.production.config.js",
-    "prod": "NODE_ENV=production npm run build:production && npm run build:manifest"
+    "test": "NODE_PATH=$NODE_PATH:./apps/sudoku ./node_modules/mocha/bin/mocha --opts spec/mocha.opts spec",
+    "dev-electron": "foreman start",
+    "start": "webpack-dev-server -p --config ./config/webpack.hmr.babel.js",
+    "build:production": "mkdir -p ./public && webpack -p --config ./config/webpack.production.config.js"
   },
   "author": "Alex Barry",
   "license": "MIT"

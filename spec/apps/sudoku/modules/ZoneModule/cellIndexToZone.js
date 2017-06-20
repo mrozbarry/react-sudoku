@@ -1,14 +1,14 @@
 import { zone as boxZone } from '../../../../../apps/sudoku/modules/BoxModule'
-// import { zone as rowZone } from '../../../../../apps/sudoku/modules/RowModule'
-// import { zone as columnZone } from '../../../../../apps/sudoku/modules/ColumnModule'
+import { zone as rowZone } from '../../../../../apps/sudoku/modules/RowModule'
+import { zone as columnZone } from '../../../../../apps/sudoku/modules/ColumnModule'
 import _ from 'lodash'
 
 const expect = require('expect.js')
 
 const zones = [
-  { name: 'box', zone: boxZone, cellIndexToZoneTests: [[0, 0], [41, 4], [80, 8]] }//,
-  // { name: 'row', zone: rowZone, cellIndexToZoneTests: [[0, 0], [41, foo], [80, bar]] },
-  // { name: 'column', zone: columnZone, cellIndexToZoneTests: [[0, 0], [41, foo], [80, bar]] }
+  { name: 'box', zone: boxZone, cellIndexToZoneTests: [[0, 0], [41, 4], [80, 8]] },
+  { name: 'row', zone: rowZone, cellIndexToZoneTests: [[0, 0], [30, 3], [70, 7]] },
+  { name: 'column', zone: columnZone, cellIndexToZoneTests: [[0, 0], [41, 5], [67, 4]] }
 ]
 
 describe('ZoneModule', () => {

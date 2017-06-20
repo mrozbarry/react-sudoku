@@ -1,6 +1,10 @@
-import { APPS_PATH } from './_paths'
-import path from 'path'
+const { APPS_PATH } = require("./_paths")
+const path = require("path")
 
-export default {
-  sudoku: path.resolve(APPS_PATH, 'sudoku', 'index.js')
+module.exports = {
+  sudoku: [
+    "babel-polyfill",
+    "react-hot-loader/patch",
+    path.resolve(APPS_PATH, "sudoku", "index.js")
+  ]
 }

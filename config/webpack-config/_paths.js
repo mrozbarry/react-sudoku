@@ -1,4 +1,8 @@
-import path from 'path'
+const path = require("path")
 
-export const ROOT_PATH = path.resolve(__dirname, '..', '..')
-export const APPS_PATH = path.resolve(ROOT_PATH, 'apps')
+const root = path.resolve(__dirname, "..", "..")
+
+module.exports = {
+  ROOT_PATH: root,
+  APPS_PATH: path.resolve(root, "apps")
+}

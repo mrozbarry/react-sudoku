@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-const VALID_CANDIDATES = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+export const VALID_CANDIDATES = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 function ascNumSort (arr) {
   return arr.sort((a, b) => a > b)
@@ -11,7 +11,7 @@ function validateNumber (value, description) {
     return
   }
 
-  if (!_.contains(VALID_CANDIDATES, value)) {
+  if (!_.includes(VALID_CANDIDATES, value)) {
     throw new TypeError(`Expected ${description} to be ${VALID_CANDIDATES.join('/')}, got ${value}`)
   }
 }
@@ -44,6 +44,16 @@ export function emptyCell () {
 
 export function isCellEmpty (cell) {
   return cell.number === null
+}
+
+export function isCellSame (cell, otherCell) {
+  return cell &&
+    otherCell &&
+    (cell.number == otherCell.number) &&
+    (cell.candidates.length == otherCell.candidates.length) &&
+    cell.candidates.every((candidate, idx) => {
+      return otherCell.candidates[idx] == candidate
+    })
 }
 
 export function addCellCandidate (cell, candidateNumber) {

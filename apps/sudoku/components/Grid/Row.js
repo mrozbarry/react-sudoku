@@ -1,23 +1,14 @@
-require('./styles/row')
+//require('./styles/row')
 
 import React from 'react'
 
-import Cell from './Cell'
+import Cell from './Cell.js'
 
-import mappable from 'lib/mappable'
+import mappable from '../../lib/mappable.js'
 
 const { number, array, func } = React.PropTypes
 
-export default React.createClass({
-  propTypes: {
-    row: number.isRequired,
-    grid: array.isRequired,
-    conflicts: array.isRequired,
-    setNumber: func.isRequired,
-    addCandidate: func.isRequired,
-    removeCandidate: func.isRequired
-  },
-
+export default class Row extends React.Component {
   // borderStyleIf (truthy) {
   //   return truthy
   //     ? '1px black solid'
@@ -57,7 +48,7 @@ export default React.createClass({
     return (
       <tr>{this.renderCells()}</tr>
     )
-  },
+  }
 
   renderCells () {
     const {
@@ -85,4 +76,13 @@ export default React.createClass({
       )
     })
   }
-})
+}
+
+Row.propTypes = {
+  row: number.isRequired,
+  grid: array.isRequired,
+  conflicts: array.isRequired,
+  setNumber: func.isRequired,
+  addCandidate: func.isRequired,
+  removeCandidate: func.isRequired
+}

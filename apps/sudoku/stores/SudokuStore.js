@@ -1,8 +1,8 @@
-// { devTools, persistState } = require('redux-devtools')
-import { compose, applyMiddleware, createStore } from 'redux'
+// { devTools, persistState } = require("redux-devtools")
+import { compose, applyMiddleware, createStore } from "redux"
 
-import reducer from 'reducers/index'
-import { emptyGrid } from 'modules/GridModule'
+import reducer from "../reducers/index.js"
+import { emptyGrid } from "../modules/GridModule.js"
 
 const initialState = {
   grid: emptyGrid(),
@@ -14,9 +14,9 @@ const initialState = {
 
 const logger = (store) => (next) => (action) => {
   console.groupCollapsed(action.type)
-  console.info('dispatching', action)
+  console.info("dispatching", action)
   const result = next(action)
-  console.log('next state', store.getState())
+  console.log("next state", store.getState())
   console.groupEnd(action.type)
 
   return result

@@ -1,9 +1,10 @@
-import { APPS_PATH } from './_paths'
-import path from 'path'
+const { APPS_PATH, ROOT_PATH } = require("./_paths")
+const path = require("path")
 
-export default {
-  extensions: ['', '.js', '.sass'],
-  root: [
-    path.resolve(APPS_PATH, 'sudoku')
+module.exports = {
+  extensions: [".js", ".sass"],
+  modules: [
+    path.resolve(APPS_PATH, "sudoku"),
+    path.resolve(ROOT_PATH, "node_modules")
   ]
 }

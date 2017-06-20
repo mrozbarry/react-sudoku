@@ -1,16 +1,16 @@
-import { APPS_PATH } from './_paths'
+const { APPS_PATH } = require("./_paths")
 
-export default {
+module.exports = {
   loaders: [
     {
       test: /\.js$/,
       include: APPS_PATH,
-      loader: 'babel'
+      loader: "babel-loader"
     },
     {
       test: /\.sass$/,
       include: APPS_PATH,
-      loader: 'style-loader!css-loader!sass?indentedSyntax'
+      loader: "style-loader!css-loader!sass-loader?indentedSyntax"
     }
   ]
 }

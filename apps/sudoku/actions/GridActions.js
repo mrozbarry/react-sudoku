@@ -20,3 +20,9 @@ export function getConflicts (index) {
     index: index
   }
 }
+
+export function generatePuzzle () {
+  return {
+    type: 'GENERATE_PUZZLE'
+  }
+}

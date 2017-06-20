@@ -1,5 +1,5 @@
-var Webpack = require("webpack");
-var path = require('path');
+const Webpack = require("webpack");
+const path = require('path');
 
 module.exports = {
   entry: {
@@ -8,12 +8,11 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.sass$/, loader: "style-loader!css-loader!sass?indentedSyntax" },
-      { test: /\.coffee$/, loader: "coffee-loader" }
+      { test: /\.sass$/, loader: "style-loader!css-loader!sass?indentedSyntax" }
     ]
   },
   resolve: {
-    extensions: ["", ".js", ".coffee", ".sass"]
+    extensions: [".js", ".sass"]
   },
   plugins: [
     new Webpack.ProvidePlugin({

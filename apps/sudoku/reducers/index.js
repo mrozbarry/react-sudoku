@@ -1,5 +1,5 @@
-import gridReducer from './gridReducer'
-import conflictsReducer from './conflictsReducer'
+import gridReducer from "./gridReducer.js"
+import conflictsReducer from "./conflictsReducer.js"
 
 export default function (state, action) {
   return {

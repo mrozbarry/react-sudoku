@@ -1,4 +1,4 @@
-require('./styles/cell.sass')
+// require('./styles/cell.sass')
 
 import React from 'react'
 

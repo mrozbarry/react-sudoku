@@ -1,6 +1,6 @@
-import { createZoneExport } from './ZoneModule'
+import { createZoneExport } from "./ZoneModule.js"
 
-import _ from 'lodash'
+import _ from "lodash"
 
 //  0  1  2    3  4  5    6  7  8
 //  9 10 11   12 13 14   15 16 17
@@ -32,7 +32,7 @@ export const zone = createZoneExport(boxIndexes)
 
 export function compact (indexes) {
   if (!_.isArray(indexes)) {
-    throw new TypeError('Indexes must be an array')
+    throw new TypeError("Indexes must be an array")
   }
 
   return indexes.reduce(function (boxNumbers, index) {

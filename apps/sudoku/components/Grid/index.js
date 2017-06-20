@@ -1,20 +1,12 @@
-require('./styles/index.sass')
+//require('./styles/index.sass')
 
 import React from 'react'
-import Row from './Row'
-import mappable from 'lib/mappable'
+import Row from './Row.js'
+import mappable from '../../lib/mappable.js'
 
 const { array, func } = React.PropTypes
 
-export default React.createClass({
-  propTypes: {
-    grid: array.isRequired,
-    conflicts: array.isRequired,
-    setNumber: func.isRequired,
-    addCandidate: func.isRequired,
-    removeCandidate: func.isRequired
-  },
-
+export default class Grid extends React.Component {
   render () {
     return (
       <div className='grid'>
@@ -28,7 +20,7 @@ export default React.createClass({
         </table>
       </div>
     )
-  },
+  }
 
   renderRows () {
     const {
@@ -53,4 +45,12 @@ export default React.createClass({
       )
     })
   }
-})
+}
+
+Grid.propTypes = {
+  grid: array.isRequired,
+  conflicts: array.isRequired,
+  setNumber: func.isRequired,
+  addCandidate: func.isRequired,
+  removeCandidate: func.isRequired
+}

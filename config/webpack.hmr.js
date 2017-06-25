@@ -24,7 +24,7 @@ module.exports = {
 
   plugins: plugins.concat([
     new Webpack.HotModuleReplacementPlugin(),
-    new Webpack.NoErrorsPlugin(),
+    new Webpack.NoEmitOnErrorsPlugin(),
     new Webpack.DefinePlugin({
       NODE_ENV: "development"
     })

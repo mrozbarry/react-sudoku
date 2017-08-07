@@ -26,3 +26,9 @@ export function generatePuzzle () {
     type: 'GENERATE_PUZZLE'
   }
 }
+
+export function clearPuzzle () {
+  return {
+    type: 'CLEAR_PUZZLE'
+  }
+}

@@ -4,30 +4,32 @@ import Grid from './components/Grid/index.js'
 
 const { array, func } = React.PropTypes
 
-export default class App extends React.Component {
-  render () {
-    const {
-      grid,
-      conflicts,
-      setNumber,
-      addCandidate,
-      removeCandidate,
-      generatePuzzle
-    } = this.props
+var App = (props) => {
+  const {
+    grid,
+    conflicts,
+    setNumber,
+    addCandidate,
+    removeCandidate,
+    generatePuzzle,
+    clearPuzzle
+  } = props
 
-    return (
-      <div>
-        <Actions generatePuzzle={generatePuzzle} />
-        <Grid
-          grid={grid}
-          conflicts={conflicts}
-          setNumber={setNumber}
-          addCandidate={addCandidate}
-          removeCandidate={removeCandidate}
-          />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Actions
+        generatePuzzle={generatePuzzle}
+        clearPuzzle={clearPuzzle}
+        />
+      <Grid
+        grid={grid}
+        conflicts={conflicts}
+        setNumber={setNumber}
+        addCandidate={addCandidate}
+        removeCandidate={removeCandidate}
+        />
+    </div>
+  )
 }
 
 App.propTypes = {
@@ -36,5 +38,8 @@ App.propTypes = {
   setNumber: func.isRequired,
   addCandidate: func.isRequired,
   removeCandidate: func.isRequired,
-  generatePuzzle: func.isRequired
+  generatePuzzle: func.isRequired,
+  clearPuzzle: func.isRequired
 }
+
+export default App

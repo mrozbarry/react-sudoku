@@ -1,4 +1,4 @@
-import { setGridNumber, addGridCandidate, removeGridCandidate } from "../modules/GridModule"
+import { setGridNumber, addGridCandidate, removeGridCandidate, emptyGrid } from "../modules/GridModule"
 import { createPuzzle } from "../modules/SolverModule"
 
 function setNumber (grid, action) {
@@ -30,6 +30,9 @@ export default function (grid, action) {
 
   case "GENERATE_PUZZLE":
     return generatePuzzle(action)
+
+  case "CLEAR_PUZZLE":
+    return emptyGrid()
 
   default:
     return grid

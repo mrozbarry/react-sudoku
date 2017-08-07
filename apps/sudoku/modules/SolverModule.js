@@ -12,15 +12,17 @@ export function solver () {
       }, cell)
     }),
     isSolved: false,
-    previous: null
+    previous: null,
+    problem: null
   }
 }
 
-function nextSolver (solver, nextGrid) {
+function nextSolver (solver, grid, problem) {
   return {
-    grid: nextGrid,
+    grid: grid,
     isSolved: solver.isSolved,
-    previous: solver
+    previous: solver,
+    problem: problem
   }
 }
 
@@ -52,55 +54,113 @@ export function solveStep (solver) {
   return solveStepFromCandidates(solver)
 }
 
-  function isSolved (solver) {
-    return mappable(9).every((n) => {
-      return isGridNumberSolved(solver.grid, n + 1)
+function isSolved (solver) {
+  if (solver.isSolved) {
+    return true
+  }
+
+  return mappable(9).every((n) => {
+    return isGridNumberSolved(solver.grid, n + 1)
+  })
+}
+
+function markAsSolved (solver) {
+  return Object.assign({}, solver, { isSolved: true })
+}
+
+function solveStepFromCandidates (solver) {
+  // const nextPossibleCells =
+  //   determineNextBestCandidates(solver)
+  //
+  // const index =
+  //   nextPossibleCells
+  //   .cellIndexes[Math.floor(
+  //     nextPossibleCells.cellIndexes.length *
+  //     Math.random()
+  //   )]
+  const index = solver.grid.reduce((memo, cell, idx) => {
+    if (!memo && cell.number == null) {
+      return idx
+    } else {
+      return memo
+    }
+  }, null)
+
+
+  // console.log(
+  //   "SolverModule.solveStep",
+  //   nextPossibleCells,
+  //   { unsolved: solver.grid.filter((cell) => cell.number == null) }
+  // )
+
+  const cell = solver.grid[index]
+  const candidate =
+    cell.candidates[Math.floor(
+      cell.candidates.length *
+      Math.random()
+    )]
+
+  const nextGrid =
+    setGridNumber(
+      solver.grid,
+      index,
+      candidate
+    )
+
+  const canContinueSolving =
+    nextGrid.every((cell) => {
+      return cell.number > 0 || cell.candidates.length > 0
     })
-  }
 
-  function markAsSolved (solver) {
-    return Object.assign({}, solver, { isSolved: true })
-  }
+  console.log("can continue solving", canContinueSolving)
 
-  function solveStepFromCandidates (solver) {
-    //const boxOrder = [0, 4, 8, 1, 2, 3, 5, 6, 7]
-    const boxOrder = mappable(9)
-    const boxToSolve = boxOrder.reduce(function (firstUnsolvedBoxIdx, boxIdx) {
-      if (firstUnsolvedBoxIdx >= 0) {
-        return firstUnsolvedBoxIdx
+  if (canContinueSolving) {
+    return {
+      grid: nextGrid,
+      isSolved: solver.isSolved,
+      previous: solver
+    }
+
+  } else {
+    const previousSolver =
+      determinePreviousBestSolver(solver, { index: index, candidate: candidate })
+    return solveStepFromCandidates(previousSolver)
+
+  }
+}
+
+function determineNextBestCandidates (solver) {
+  return solver.grid.reduce((memo, cell, idx) => {
+    if (cell.candidates.length == memo.candidateCount) {
+      return {
+        candidateCount: memo.candidateCount,
+        cellIndexes: memo.cellIndexes.concat(idx)
       }
 
-      const boxCellIdxs = boxZone.zoneToCellIndexes(boxIdx)
-      const isBoxSolved = boxCellIdxs.every((cellIdx) => {
-        return solver.grid[cellIdx].number > 0
-      })
+    } else if (cell.candidates.length == 0) {
+      return memo
 
-      if (isBoxSolved) {
-        return firstUnsolvedBoxIdx
-      } else {
-        return boxIdx
+    } else if (cell.candidates.length < memo.candidateCount) {
+      return {
+        candidateCount: cell.candidates.length,
+        cellIndexes: [idx]
       }
-    }, undefined)
 
-    return solveStepBox(solver, boxToSolve)
+    } else {
+      return memo
+
+    }
+  }, { candidateCount: 9, cellIndexes: [] })
+}
+
+
+function determinePreviousBestSolver (solver) {
+  const possibleCells =
+    determineNextBestCandidates(solver)
+
+  if (possibleCells.candidateCount > 1) {
+    return solver
+  } else {
+    return determinePreviousBestSolver(solver.previous)
   }
-
-  function solveStepBox (solver, boxIdx) {
-    //console.log("solveStepBox", boxIdx)
-
-    const emptyCellIndexes = boxZone.zoneToCellIndexes(boxIdx).filter(function (index) {
-      return !solver.grid[index].number
-    })
-
-    const cellIdxs = _.sortBy(emptyCellIndexes, function (index) {
-      return solver.grid[index].candidates.length
-    })
-
-    const cellIdx = cellIdxs[0]
-
-    const number = _.shuffle(solver.grid[cellIdx].candidates)[0]
-
-    //console.log(`solveStepBox: boxIdx=${boxIdx}, cellIdx=${cellIdx}, number=${number}`, solver.grid[cellIdx].candidates.join(","))
-
-    return nextSolver(solver, setGridNumber(solver.grid, cellIdx, number)) //solver.grid[cellIdx].candidates[0]))
-  }
+}

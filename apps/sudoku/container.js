@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { setNumber, addCandidate, removeCandidate, getConflicts, generatePuzzle } from "./actions/GridActions.js"
+import { setNumber, addCandidate, removeCandidate, getConflicts, generatePuzzle, clearPuzzle } from "./actions/GridActions.js"
 import App from "./app.js"
 
 const mapDispatchToProps = function (dispatch) {
@@ -18,6 +18,10 @@ const mapDispatchToProps = function (dispatch) {
 
     generatePuzzle () {
       dispatch(generatePuzzle())
+    },
+
+    clearPuzzle () {
+      dispatch(clearPuzzle())
     }
   }
 }

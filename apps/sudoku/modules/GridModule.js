@@ -63,11 +63,8 @@ export function isGridNumberSolved (grid, number) {
   }, [])
 
   if (cellIndexes.length != 9) {
-    console.log("isGridNumberSolved: cellIndexes.length = ", cellIndexes.length)
     return false
   }
-
-  console.log("isGridNumberSolved: Cell indexes:", cellIndexes)
 
   // Check that no indexes are in conflict with the source index
   // return _.all(cellIndexes, function (cellIndex) {
